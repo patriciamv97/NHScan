@@ -1,7 +1,7 @@
 from menu.Repositories.MenuRepository import MenuRepository
 
 
-class MenuWindowswindowsRepository(MenuRepository):
+class MenuLinuxHostRepository(MenuRepository):
     def __init__(self):
         super().__init__()
         self._menu_host = None

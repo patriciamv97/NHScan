@@ -7,7 +7,7 @@ from LibModule.validate import out_decode, out_nmap_validate
 def run_command(command):
     try:
         result = subprocess.run(
-            command,  # Comando que probablemente fallará
+            command,
             check=True,  # Levanta una excepción si el comando falla
             stdout=subprocess.PIPE,  # Captura la salida estándar
             stderr=subprocess.PIPE,  # Captura la salida de error

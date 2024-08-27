@@ -19,5 +19,5 @@ class Windows(HostRepository):
 
     @staticmethod
     def get_basic_information():
-        basic_info = run_powershell_command("Start-Process 'systeminfo' -NoNewWindow -Wait")
+        basic_info, returncode = run_powershell_command("Start-Process 'systeminfo' -NoNewWindow -Wait")
         return basic_info

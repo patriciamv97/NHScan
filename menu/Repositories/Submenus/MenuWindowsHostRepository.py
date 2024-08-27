@@ -1,7 +1,7 @@
 from menu.Repositories.MenuRepository import MenuRepository
 
 
-class MenuWindowswindowsRepository(MenuRepository):
+class MenuWindowsHostRepository(MenuRepository):
     def __init__(self):
         super().__init__()
         self._menu_host = None
@@ -40,12 +40,12 @@ class MenuWindowswindowsRepository(MenuRepository):
         self._submenu_file_directories.exit = 11
         self._submenu_file_directories.options = {
             '1': ('Obtener archivos desatendidos', self._submenu_file_directories.get_unattended_files),
-            '2': ('Obtener directivas de la máquina', self._submenu_file_directories.get_extension_files_xml),
+            '2': ('Archivos con extensión xml', self._submenu_file_directories.get_extension_files_xml),
             '3': ('Archivos con extensión ini', self._submenu_file_directories.get_extenision_files_ini),
             '4': ('Archivos de configuración', self._submenu_file_directories.get_extension_files_conf),
             '5': ('Logs', self._submenu_file_directories.get_logs),
             '6': ('Otros archivos interesantes', self._submenu_file_directories.get_interesting_files),
-            '7': ('Obtener contrasñas', self._submenu_file_directories.get_passwords),
+            '7': ('Obtener contraseñas', self._submenu_file_directories.get_find_password),
             '8': ('Archivos ocultos en la raiz', self._submenu_file_directories.get_hidden_files_in_root),
             '9': ('Archivos ocultos en Users', self._submenu_file_directories.get_hidden_files_in_users),
             '10': ('Archivos ocultos en el usuario actual', self._submenu_file_directories.get_hidden_files_in_user),

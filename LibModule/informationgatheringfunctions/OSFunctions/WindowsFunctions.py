@@ -1,3 +1,4 @@
+import os
 import re
 import subprocess
 
@@ -16,12 +17,30 @@ def run_powershell_command(command):
 
 
 def run_command(command):
-    proc = subprocess.Popen(("cmd /c" + command).split())
     try:
-        outs, errs = proc.communicate(timeout=15)
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        outs, errs = proc.communicate()
+        search_directory = os.getenv('USERPROFILE')
+        result = subprocess.run(
+            ("cmd /c " + command).split(),
+            cwd=search_directory,
+            stdout=subprocess.PIPE,  # Captura la salida estándar
+            stderr=subprocess.PIPE,  # Captura la salida de error
+            text=True,  # Devuelve la salida como texto en lugar de bytes
+            encoding='latin-1'
+        )
+
+        if result.returncode == 0:
+            return result.stdout  # Retorna la salida si encuentra coincidencias
+        else:
+            return result.stderr
+
+    except subprocess.CalledProcessError as e:
+        # Si el comando falla, entra aquí
+        print(f"Error: El comando falló con el código de salida {e.returncode}")
+        print(f"Salida estándar de error: {e.stderr}")  # Muestra la salida de error
+
+    except FileNotFoundError:
+        # Si el comando no se encuentra (por ejemplo, ejecutable inexistente)
+        print("Error: El comando no existe en el sistema.")
 
 
 def run(cmd):

@@ -21,7 +21,8 @@ class NetWork:
     def get_gateways(self):
         all_gateways = gateways()[2]
         for gateway in all_gateways:
-            self.network_gateways.append(gateway[0])
+            if gateway[0] not in self.network_gateways:
+                self.network_gateways.append(gateway[0])
 
     def get_interfaces(self):
         network_interfaces = NetWorkInterfaces()
@@ -37,7 +38,8 @@ class NetWork:
             if discovered_host.ip:
                 discovered_host.get_host_name()
                 discovered_host.get_os()
-                self.host_in_network.append(discovered_host)
+                if discovered_host not in self.host_in_network:
+                    self.host_in_network.append(discovered_host)
 
     def get_dns(self):
         my_host = MyHost()

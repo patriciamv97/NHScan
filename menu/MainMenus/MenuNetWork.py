@@ -1,5 +1,6 @@
 from colorama import Fore
 
+from LibModule.Loader import Loader
 from LibModule.validate import get_network_range
 from menu.Menu import Menu
 from networkInformation.interfaces.NetWorkInterfaces import NetWorkInterfaces
@@ -15,11 +16,13 @@ class MenuNetWork(Menu):
 
     def get_network_info(self):
         valid_ip_range = get_network_range()
+        loader = Loader("Loading...", "", 0.05).start()
         self.network.get_dns()
         self.network.get_dhcp()
         self.network.get_interfaces()
         self.network.get_gateways()
         self.network.get_other_host(valid_ip_range)
+        loader.stop()
         print(self.network.__str__())
 
     @staticmethod

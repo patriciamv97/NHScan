@@ -1,5 +1,6 @@
 from colorama import Fore
 
+from LibModule.Loader import Loader
 from menu.MainMenus.MenuHost.MenuHost import MenuHost
 
 
@@ -10,7 +11,9 @@ class SubMenuFilesDirectories(MenuHost):
         self.host = host
 
     def get_unattended_files(self):
+        loader = Loader("Loading...", "", 0.05).start()
         self.host.file_directories.get_unattended_files()
+        loader.stop()
         if self.host.file_directories.unattended_files:
             print(f"{Fore.MAGENTA}Archivos desatendidos{Fore.RESET}")
             print(self.host.file_directories.unattended_files)
@@ -40,15 +43,19 @@ class SubMenuFilesDirectories(MenuHost):
             print(self.host.file_directories.logs)
 
     def get_interesting_files(self):
+        loader = Loader("Loading...", "", 0.05).start()
         self.host.file_directories.get_interesting_files()
+        loader.stop()
         if self.host.file_directories.interesting_files:
-            print(f"{Fore.MAGENTA}Archivos con contraseñas{Fore.RESET}")
+            print(f"{Fore.MAGENTA}Archivos interesantes{Fore.RESET}")
             print(self.host.file_directories.interesting_files)
 
-    def get_passwords(self):
-        self.host.file_directories.find_password()
-        if self.host.file_directories.get_passwords:
-            print(f"{Fore.MAGENTA}Contraseñas{Fore.RESET}")
+    def get_find_password(self):
+        loader = Loader("Loading...", "", 0.05).start()
+        self.host.file_directories.get_find_password()
+        loader.stop()
+        if self.host.file_directories.passwords:
+            print(f"{Fore.MAGENTA}Archivos con contraseñas{Fore.RESET}")
             print(self.host.file_directories.passwords)
 
     def get_hidden_files_in_root(self):

@@ -5,7 +5,9 @@ from menu.MainMenus.MenuHost.MenuHost import MenuHost
 from menu.MainMenus.MenuNetWork import MenuNetWork
 from menu.MainMenus.MenuNetWorkHost import MenuNetWorkHost
 from menu.Repositories.MenuRepository import MenuRepository
-from menu.Repositories.Submenus.MenuWindowsHostRepository import MenuWindowswindowsRepository
+from menu.Repositories.Submenus.MenuLinuxHostRepository import MenuLinuxHostRepository
+from menu.Repositories.Submenus.MenuWindowsHostRepository import MenuWindowsHostRepository
+from myhostinformation.HostInfo.Types.Linux.Linux import Linux
 from myhostinformation.HostInfo.Types.Windows.Windows import Windows
 from myhostinformation.MyHost import MyHost
 from networkInformation.NetWork import NetWork
@@ -48,9 +50,14 @@ if __name__ == "__main__":
 
     menu_network_host = MenuNetWorkHost()
     menu_network_host.set_host_in_network(HostInNetwork())
-
     menu_host = MenuHost()
-    menu_host.set_host(Windows())
-    submenu = MenuWindowswindowsRepository()
+
+    if MyHost().operative_system == "Windows":
+        menu_host.set_host(Windows())
+        submenu = MenuWindowsHostRepository()
+    else:
+        menu_host.set_host(Linux())
+        submenu = MenuLinuxHostRepository()
+
     main_menu = (builder.network_menu(menu_network)
                  .network_host_menu(menu_network_host).my_host_menu(menu_host, submenu).build()).main_menu()

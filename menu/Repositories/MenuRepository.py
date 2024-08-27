@@ -58,12 +58,12 @@ class MenuRepository:
         repository = self.build_submenu_host_repository(repository, my_host_menu)
         self._my_host_menu.exit = 7
         self._my_host_menu.options = {
-            '1': ('Información Basica', self._my_host_menu.host.basic_information),
+            '1': ('Información Basica', self._my_host_menu.basic_information),
             '2': ('Usuarios', repository.get_submenu_user().main_menu),
             '3': ('Directorios y ficheros', repository.get_submenu_files_directories().main_menu),
             '4': ('Varibales de entorno', repository.get_submenu_enviromental_variables().main_menu),
             '5': ('NetWork', repository.get_submenu_network().main_menu),
-            '6': ('Programas útiles en el sistema', Programs().enumerate_useful_programs),
+            '6': ('Programas útiles en el sistema', self._my_host_menu.enumerate_useful_programs),
             '7': ('Menu principal', self._main_menu.main_menu),
 
         }

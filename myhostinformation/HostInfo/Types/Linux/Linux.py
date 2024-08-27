@@ -21,4 +21,5 @@ class Linux(HostRepository):
 
     @staticmethod
     def get_basic_information():
-        return run_command(("cat /etc/os-release 2>/dev/null").split())
+        information = run_command(("cat /etc/os-release 2>/dev/null").split())
+        return information

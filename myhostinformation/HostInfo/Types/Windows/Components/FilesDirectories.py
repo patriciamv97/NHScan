@@ -1,3 +1,5 @@
+import subprocess
+
 from LibModule.Loader import Loader
 from LibModule.informationgatheringfunctions.OSFunctions.WindowsFunctions import run_powershell_command, run_command
 
@@ -8,7 +10,7 @@ commands_file_directories = {
     3: "dir C:\\Windows\\ *.ini /s/b",
     4: "dir /s/b *.config",
     5: "dir C:\\ *.log /s/b",
-    6: "dir /s *pass* == *cred* == *vcn* == *.config* 2>null",
+    6: "dir /s *pass* == *cred* == *vcn* == *.config*",
     7: "findstr /si pass *.xml *.ini *.txt *.config",
     8: "dir /a:h \\",
     9: "dir /a:h \\Users",
@@ -37,13 +39,13 @@ class FilesDirectories:
         self.unattended_files = unattended_files
 
     def get_extension_files_xml(self):
-        self.xml_files = run_command(commands_file_directories[2])
+        self.xml_files = (run_command(commands_file_directories[2]))
 
     def get_extenision_files_ini(self):
-        self.init_files = run_command(commands_file_directories[3])
+        self.init_files = (run_command(commands_file_directories[3]))
 
     def get_extension_files_conf(self):
-        self.config_files = run_command(commands_file_directories[4])
+        self.config_files = (run_command(commands_file_directories[4]))
 
     def get_logs(self):
         self.logs = run_command(commands_file_directories[5])
@@ -61,4 +63,4 @@ class FilesDirectories:
         self.hidden_files_in_users = run_command(commands_file_directories[9])
 
     def get_hidden_files_in_user(self):
-        self.hidden_files_in_user = run_command(commands_file_directories[10])
+        self.hidden_files_in_users = run_command(commands_file_directories[10])
