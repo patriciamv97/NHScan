@@ -27,4 +27,5 @@ class NetWorkInterfaces:
                         interface.duplex = getattr(stats[intface], "duplex") or 'None'
                     if addr.family == socket.AF_LINK:
                         interface.mac.append(addr.address)
+                    interface.get_arp_cache()
                 self.interfaces.append(interface)

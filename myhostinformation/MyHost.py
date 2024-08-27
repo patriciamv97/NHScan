@@ -1,5 +1,6 @@
 import platform
-import psutil as ps
+
+from colorama import Fore
 
 
 class MyHost:
@@ -9,9 +10,11 @@ class MyHost:
         self.processor = platform.processor()
         self.operative_system = platform.uname().system
         self.node = platform.node()
-        self.users = ps.users()
-        #interface
+        # interface
 
     def __str__(self):
-        return (self.node + " " + self.operative_system + ", " + self.machine + ", " + self.release
-                + ", " + self.processor)
+        return (Fore.MAGENTA + "Nombre de la maquina : " + Fore.RESET + self.node + "\n" +
+                Fore.MAGENTA + "Sistema operativo : " + Fore.RESET + self.operative_system + "\n" +
+                Fore.MAGENTA + "Arquitectura : " + Fore.RESET + self.machine + "\n" +
+                Fore.MAGENTA + "Version : " + Fore.RESET + self.release + "\n" +
+                Fore.MAGENTA + "Procesador : " + Fore.RESET + self.processor)

@@ -1,68 +1,56 @@
-import psutil
+from colorama import Fore
 
-from LibModule.scanners.DNSFunctions import get_dns_linux
+from LibModule.constants import Constants
+from menu.MainMenus.MenuHost.MenuHost import MenuHost
+from menu.MainMenus.MenuNetWork import MenuNetWork
+from menu.MainMenus.MenuNetWorkHost import MenuNetWorkHost
+from menu.Repositories.MenuRepository import MenuRepository
+from menu.Repositories.Submenus.MenuWindowsHostRepository import MenuWindowswindowsRepository
+from myhostinformation.HostInfo.Types.Windows.Windows import Windows
 from myhostinformation.MyHost import MyHost
 from networkInformation.NetWork import NetWork
+from networkInformation.hosts.HostInNetWork import HostInNetwork
 
-'''def obtener_dns():
-    dns_servidores = psutil.net_if_addrs()
-    dns = []
-    for interfaz, direcciones in dns_servidores.items():
-        for direccion in direcciones:
-            if socket.AF_INET == direccion.family and direccion.address:
-                try:
-                    hostname = socket.gethostbyaddr(direccion.address)
-                    dns.append(direccion.address)
-                except socket.herror:
-                    pass
-    return dns'''
+
+def display_banner():
+    banner = ("\n" +
+              r"     .-') _  ('-. .-.  .-')                ('-.         .-') _      .-') _   ('-.  _  .-')" "\n"
+              r"    ( OO ) )( OO )  / ( OO ).             ( OO ).-.    ( OO ) )    ( OO ) )_(  OO)( \( -O )" "\n"
+              r",--./ ,--,' ,--. ,--.(_)---\_)   .-----.  / . --. /,--./ ,--,' ,--./ ,--,'(,------.,------." "\n"
+              r"|   \ |  |\ |  | |  |/    _ |   '  .--./  | \-.  \ |   \ |  |\ |   \ |  |\ |  .---'|   /`. '" "\n"
+              r"|    \|  | )|   .|  |\  :` `.   |  |('-..-'-'  |  ||    \|  | )|    \|  | )|  |    |  /  | |" "\n"
+              r"|  .     |/ |       | '..`''.) /_) |OO  )\| |_.'  ||  .     |/ |  .     |/(|  '--. |  |_.' |" "\n"
+              r"|  |\    |  |  .-.  |.-._)   \ ||  |`-'|  |  .-.  ||  |\    |  |  |\    |  |  .--' |  .  '.'" "\n"
+              r"|  | \   |  |  | |  |\       /(_'  '--'\  |  | |  ||  | \   |  |  | \   |  |  `---.|  |\  \ " "\n"
+              r"`--'  `--'  `--' `--' `-----'    `-----'  `--' `--'`--'  `--'  `--'  `--'  `------'`--' '--' ")
+
+    print("%s" % banner)
+    print("\n", "NHScanner: ", Constants.__version__)
+    print("\n" + "|" + "-" * 100 + "|", end="\n\n")
+    print(
+        "[!]INFORMACIÓN : \n"
+        "Para calcular el cdir de tu red puedes hacerlo en : \n" +
+        Constants.__enlace_cdir__)
+    print("\n" + "|" + "-" * 100 + "|", end="\n\n")
+    print(Fore.LIGHTWHITE_EX + "INFORMACIÓN DEL HOST")
+    host = MyHost()
+    print(host.__str__())
+    print("\n" + "|" + "-" * 100 + "|", end="\n\n")
+
 
 if __name__ == "__main__":
-    print(
-        "Para calcular el cdir de tu red puedes hacerlo en : "
-        "https://www.rohde-schwarz.com/es/soluciones/networks-and-cybersecurity/ciberseguridad/landing-pages"
-        "/calculadora-de-cidr_256249.html")
+    display_banner()
 
-    host = MyHost()
+    builder = MenuRepository()
 
-    print(host.operative_system)
+    menu_network = MenuNetWork()
+    menu_network.set_network(NetWork())
 
-    '''dns_servidores = psutil.net_if_addrs()
-    for interfaz, direcciones in dns_servidores.items():
-        print(interfaz)'''
+    menu_network_host = MenuNetWorkHost()
+    menu_network_host.set_host_in_network(HostInNetwork())
 
-    print("*****************************************")
-
-    get_dns_linux()
-    '''
-    network = NetWork()
-    network.get_interfaces()
-    for interfaz in network.network_interfaces:
-        print(interfaz.__str__())'''
-
-    ''' ip_range="192.168.68.101/22"
-    hosts_in_network = HostsInNetwork()
-    hosts_in_network.get_hosts(ip_range)
-    for host in hosts_in_network.hosts:
-        print(host.__str__())'''
-
-    '''  users = ps.users()
-
-    for user in users:
-        print(user)
-
-    net_connection = ps.net_connections()
-
-    for connection in net_connection:
-        print(connection)
-
-
-
-    host = Host()
-
-    print(host.__str__())
-    print(host.ip)
-
-    nodeInfo =subprocess.check_output(["nmcli","-p", "device","show"], stderr=subprocess.STDOUT)
-    nodeInfo = nodeInfo.decode('utf-8')
-    print(nodeInfo)'''
+    menu_host = MenuHost()
+    menu_host.set_host(Windows())
+    submenu = MenuWindowswindowsRepository()
+    main_menu = (builder.network_menu(menu_network)
+                 .network_host_menu(menu_network_host).my_host_menu(menu_host, submenu).build()).main_menu()

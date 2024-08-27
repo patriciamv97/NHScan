@@ -10,7 +10,7 @@ def get_mac_by_ip(target_ip):
     result = srp(packet, timeout=3, verbose=0)[0]
 
     mac = []
-    print(result)
+
     for sent, recieved in result:
         mac.append(recieved.hwsrc)
 
