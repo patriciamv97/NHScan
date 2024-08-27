@@ -27,22 +27,22 @@ class PossibleDefenses:
 
     def get_apparmor(self):
         if run_command(commands[7].split()):
-            self.apparmor = run_command(commands[8].split())
+            self.apparmor = run_command(commands[8])
         elif run_command(commands[9].split()):
-            self.apparmor = run_command(commands[10].split())
+            self.apparmor = run_command(commands[10])
         elif run_command(commands[11].split()):
-            self.apparmor = run_command(commands[11].split())
+            self.apparmor = run_command(commands[11])
         else:
             print("No se ha encontrado")
 
     def get_grsecurity(self):
         try:
-            uname_check = run_command(commands[1].split())
+            uname_check = run_command(commands[1])
 
             if "-grsec" in uname_check:
                 self.grsecurity = uname_check
 
-            sysctl_check = run_command(commands[2].split())
+            sysctl_check = run_command(commands[2])
 
             if sysctl_check:
                 self.grsecurity = sysctl_check
@@ -53,13 +53,13 @@ class PossibleDefenses:
             print(f"Error al ejecutar el comando: {e}")
 
     def get_pax(self):
-        self.pax = run_command(commands[3].split())
+        self.pax = run_command(commands[3])
 
     def get_exec_shield(self):
-        self.exec_shield = run_command(commands[4].split())
+        self.exec_shield = run_command(commands[4])
 
     def get_ses_linux(self):
-        self.selinux = run_command(commands[5].split())
+        self.selinux = run_command(commands[5])
 
     def get_aslr(self):
-        self.alsr = run_command(commands[6].split())
+        self.alsr = run_command(commands[6])

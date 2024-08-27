@@ -35,14 +35,14 @@ class NetWorkInterface:
                 return "FULL DUPLEX"
             case psutil.NIC_DUPLEX_HALF:
                 return "HALF FULL DUPLEX"
-            case psutil.NIC_DUPLEX_HALF:
+            case default:
                 return "UNKNOWN"
 
     def get_state(self):
         return "Activo" if self.state else "Desconectado"
 
     def __str__(self):
-        return (Fore.LIGHTMAGENTA_EX + "Interface: " + Fore.RESET + self.iface_name + "\n" +
+        return (Fore.LIGHTMAGENTA_EX + "Interface: " + Fore.RESET + str(self.iface_name) + "\n" +
                 Fore.LIGHTMAGENTA_EX + "IP: " + Fore.RESET + ','.join(self.ip) + "\n" +
                 Fore.LIGHTMAGENTA_EX + "MAC: " + Fore.RESET + ','.join(self.mac) + "\n" +
                 Fore.LIGHTMAGENTA_EX + "Netmask: " + Fore.RESET + self.netmask + "\n" +
@@ -53,3 +53,10 @@ class NetWorkInterface:
                 Fore.LIGHTMAGENTA_EX + "Velocidad: " + Fore.RESET + str(self.speed) + "\n" +
                 Fore.LIGHTMAGENTA_EX + "Canal: " + Fore.RESET + self.get_duplex() + "\n" +
                 Fore.LIGHTMAGENTA_EX + "ARP Cache: " + Fore.RESET + self.arp_cache)
+
+
+
+
+
+
+

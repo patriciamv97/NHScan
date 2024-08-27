@@ -41,7 +41,7 @@ class SubMenuNetWork(MenuHost):
 
     def get_list_of_available_disks_and_partitions(self):
         loader = Loader("Loading...", "", 0.05).start()
-        self.host.network.get_get_list_of_available_disks_and_partitions()
+        self.host.network.get_list_of_available_disks_and_partitions()
         loader.stop()
         if self.host.network.list_of_available_disks_and_partitions:
             print(f"{Fore.MAGENTA}Lista de discos y particiones disponibles{Fore.RESET}")
@@ -51,6 +51,6 @@ class SubMenuNetWork(MenuHost):
         loader = Loader("Loading...", "", 0.05).start()
         self.host.network.get_open_files_related_to_network_connections()
         loader.stop()
-        if self.host.network.open_files_related_to_network_connection:
+        if self.host.network.open_files_related_to_network_connections:
             print(f"{Fore.MAGENTA}Archivos abiertos relacionados con conexiones de red{Fore.RESET}")
-            print(self.host.network.open_files_related_to_network_connection)
+            print(self.host.network.open_files_related_to_network_connections)

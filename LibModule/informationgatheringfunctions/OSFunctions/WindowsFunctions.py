@@ -1,8 +1,11 @@
+import importlib
 import os
 import re
 import subprocess
+import platform
 
-import wmi
+if platform.system() == 'Windows':
+    wmi = importlib.import_module('wmi')
 from colorama import Fore
 
 

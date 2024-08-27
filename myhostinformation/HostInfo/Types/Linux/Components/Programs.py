@@ -22,4 +22,4 @@ class Programs:
         self.useful_programs = None
 
     def enumerate_useful_programs(self):
-        self.useful_programs = run_command(self.commands_programs[1].split())
+        self.useful_programs = run_command(self.commands_programs[1])

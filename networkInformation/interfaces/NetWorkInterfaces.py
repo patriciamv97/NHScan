@@ -1,4 +1,6 @@
 import socket
+import subprocess
+import re
 
 import psutil
 from networkInformation.interfaces.NetworkInterface import NetWorkInterface
@@ -25,7 +27,9 @@ class NetWorkInterfaces:
                         interface.speed = getattr(stats[intface], "speed") or 'None'
                         interface.flags = getattr(stats[intface], "flags") or 'None'
                         interface.duplex = getattr(stats[intface], "duplex") or 'None'
-                    if addr.family == socket.AF_LINK:
-                        interface.mac.append(addr.address)
+                    if hasattr(socket, "AF_LINK"):
+                        if addr.family == socket.AF_LINK:
+                            interface.mac.append(addr.address)
                     interface.get_arp_cache()
                 self.interfaces.append(interface)
+

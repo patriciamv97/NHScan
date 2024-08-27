@@ -27,7 +27,7 @@ class MenuNetWorkHost(Menu):
                 super().exit_program()
         except KeyboardInterrupt:
             print(Fore.YELLOW + "\n[X]Operación cancelada")
-            sys.exit()
+            pass
 
     def get_network_host(self):
         self.host.get_os()
@@ -39,7 +39,7 @@ class MenuNetWorkHost(Menu):
               Fore.MAGENTA + "Sistema operativo: " + Fore.RESET + self.host.operative_system)
 
     def enmu_services(self):
-        self.host.enum_services()
+        print(self.host.enum_services())
 
     def get_common_open_ports(self):
         self.host.get_common_open_ports()
@@ -57,7 +57,7 @@ class MenuNetWorkHost(Menu):
         eleccion = int(seleccion)
 
         if eleccion == 1:
-            print(Fore.YELLOW + "[!]Debes hacer un escaneo de puertos abiertos para poder obtener los banners.")
+            print(Fore.YELLOW + "[!]Debes hacer un escaneo de puertos abiertos para poder obtener los banners."+Fore.RESET)
             if self.host.open_ports:
                 self.host.get_banners(self.host.open_ports)
         elif eleccion == 2:
@@ -65,7 +65,7 @@ class MenuNetWorkHost(Menu):
         elif eleccion == 3:
             ports = input(
                 Fore.CYAN + "Introduce, un puerto o varios puertos para obtener el banner.\n" + Fore.YELLOW +
-                "En el caso de introducir varios puertos, hagalo separandolos por comas. Ej: 22, 23, 25\n").split(',')
+                "En el caso de introducir varios puertos, hagalo separandolos por comas. Ej: 22, 23, 25\n"+Fore.RESET).split(',')
             self.host.get_banners(ports)
         else:
             print(Fore.RED + "Formato no válido. Debes elegir una opción de las tres anteriores")

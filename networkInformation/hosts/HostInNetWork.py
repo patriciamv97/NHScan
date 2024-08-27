@@ -8,7 +8,7 @@ from LibModule.HostNameFunctions import get_host_name_by_ip, nmb_look_up, avahi_
 from LibModule.Loader import Loader
 from LibModule.constants import Constants
 from LibModule.informationgatheringfunctions.Functions import get_manually_banner, manualy_grabber_manually
-from LibModule.informationgatheringfunctions.Nmap import enum_scan_nmap, get_banner_nmap
+from LibModule.informationgatheringfunctions.Nmap import enum_scan_nmap, get_banner_nmap, open_ports_nmap
 from LibModule.scanners.PING import get_value_ttl
 from LibModule.validate import out_decode, out_nmap_validate
 
@@ -51,19 +51,20 @@ class HostInNetwork:
                 self.operative_system = "Unknown"
 
     def get_banners(self, ports):
+        loader = Loader("Loading...", "", 0.05).start()
         for port in ports:
             try:
-                port = port.strip()
                 banner = get_banner_nmap(self.ip, str(port))
                 if banner is not None:
                     banner = out_decode(banner)
-                    banner, state = out_nmap_validate(banner)
-                    if state == 1:
-                        self.banners[port] = banner
-                    else:
-                        self.banners[port] = manualy_grabber_manually(self.ip, int(port))
-
-            except Exception:
+                    loader.stop()
+                    print(banner)
+                    self.banners[port] = banner
+                else:
+                    self.banners[port] = manualy_grabber_manually(self.ip, int(port))
+            except Exception as e:
+                loader.stop()
+                print(e)
                 self.banners[port] = manualy_grabber_manually(self.ip, int(port))
 
     def check_vulnerability(self):
@@ -73,8 +74,6 @@ class HostInNetwork:
             for line in list_vuln_banners.readlines():
                 line = line.strip('\n')
                 for banner in banners:
-                    print(banner)
-                    print(banners[banner])
                     if banners[banner] in line:
                         print(Fore.GREEN + "Es vulnerable" + Fore.RESET + banner)
                     else:
@@ -83,15 +82,19 @@ class HostInNetwork:
             print(f"{Fore.RED}[!]No hay banners")
 
     def enum_services(self):
+        loader = Loader("Loading...", "", 0.05).start()
         try:
             services = enum_scan_nmap(self.ip)
             if services is not None:
                 services = out_decode(services)
                 services, state = out_nmap_validate(services)
+                loader.stop()
                 return services
         except FileNotFoundError:
+            loader.stop()
             print(f"{Fore.YELLOW}[!]Instala NMAP para poder usar esta utilidad.")
         except:
+            loader.stop()
             print(Fore.RED + "[!]No se pudo enumerar los servicios")
 
     def get_common_open_ports(self):
@@ -104,15 +107,23 @@ class HostInNetwork:
         return open_common_ports
 
     def get_all_open_ports(self):
-        open_ports = []
         loader = Loader("Loading...", "", 0.05).start()
-        for port in range(0, 65535):
-            if self.is_port_open(port):
-                print(f"Puerto {Fore.YELLOW + str(port) + Fore.RESET} abierto.")
-                open_ports.append(port)
-        self.open_ports = open_ports
-        loader.stop()
-        print(open_ports)
+        try:
+            open_ports = open_ports_nmap(self.ip)
+            loader.stop()
+            if open_ports is not None:
+                self.open_ports = open_ports
+                for port in self.open_ports:
+                    print(f"Puerto {Fore.YELLOW + str(port) + Fore.RESET} abierto.")
+        except:
+            open_ports = []
+            for port in range(0, 65535):
+                if self.is_port_open(port):
+                    print(f"Puerto {Fore.YELLOW + str(port) + Fore.RESET} abierto.")
+                    open_ports.append(port)
+            self.open_ports = open_ports
+            loader.stop()
+            print(open_ports)
         return open_ports
 
     def is_port_open(self, port):
@@ -126,7 +137,7 @@ class HostInNetwork:
             return False
         except KeyboardInterrupt:
             print(Fore.YELLOW + "\n[X]Operación cancelada")
-            sys.exit(0)
+            pass
         except socket.gaierror:
             print(Fore.YELLOW + "\n[!]El Nombre del host no puede ser resuelto!!!")
             sys.exit(1)

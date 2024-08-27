@@ -84,7 +84,6 @@ def out_decode(out):
 def out_nmap_validate(out):
     no_host = re.findall(r'0 hosts up', out)
     if no_host:
-
         return (
             f"{Fore.YELLOW}[!]La máquina no está activa y disponible.\nSi se tiene constancia de que la máquina sí "
             f"está activa, revisa la configuración de la red o de las infertaces."), 0

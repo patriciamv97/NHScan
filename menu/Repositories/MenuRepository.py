@@ -1,11 +1,20 @@
-from menu.MainMenus.MenuHost.Submenus.Linux.SubMenuPossibleDenfeses import SubMenuPossibleDefenses
-from menu.MainMenus.MenuHost.Submenus.Windows.SubMenuEnviromentalVaribles import SubMenuEnviromentalVariables
-from menu.MainMenus.MenuHost.Submenus.Windows.SubMenuFilesDirecotires import SubMenuFilesDirectories
-from menu.MainMenus.MenuHost.Submenus.Windows.SubMenuNetWork import SubMenuNetWork
-from menu.MainMenus.MenuHost.Submenus.Windows.SubmenuUser import SubMenuUser
+import platform
+
+if platform.system() == 'Windows':
+    from menu.MainMenus.MenuHost.Submenus.Linux.SubMenuPossibleDenfeses import SubMenuPossibleDefenses
+    from menu.MainMenus.MenuHost.Submenus.Windows.SubMenuEnviromentalVaribles import SubMenuEnviromentalVariables
+    from menu.MainMenus.MenuHost.Submenus.Windows.SubMenuFilesDirecotires import SubMenuFilesDirectories
+    from menu.MainMenus.MenuHost.Submenus.Windows.SubMenuNetWork import SubMenuNetWork
+    from menu.MainMenus.MenuHost.Submenus.Windows.SubmenuUser import SubMenuUser
+else:
+    from menu.MainMenus.MenuHost.Submenus.Linux.SubMenuPossibleDenfeses import SubMenuPossibleDefenses
+    from menu.MainMenus.MenuHost.Submenus.Linux.SubMenuEnviromentalVaribles import SubMenuEnviromentalVariables
+    from menu.MainMenus.MenuHost.Submenus.Linux.SubMenuFilesDirecotires import SubMenuFilesDirectories
+    from menu.MainMenus.MenuHost.Submenus.Linux.SubMenuNetWork import SubMenuNetWork
+    from menu.MainMenus.MenuHost.Submenus.Linux.SubmenuUser import SubMenuUser
+
 from menu.Menu import Menu
 from myhostinformation.HostInfo.Types.Linux.Linux import Linux
-from myhostinformation.HostInfo.Types.Windows.Components.Programs import Programs
 
 
 class MenuRepository:
@@ -79,10 +88,10 @@ class MenuRepository:
 
     @staticmethod
     def build_submenu_host_repository(repository, my_host_menu):
-        repository.set_menu_host(my_host_menu).submenu_user(
+        repository = repository.set_menu_host(my_host_menu).submenu_user(
             SubMenuUser(my_host_menu.host)).submenu_files_directories(
             SubMenuFilesDirectories(my_host_menu.host)).submenu_enviromental_variables(
             SubMenuEnviromentalVariables(my_host_menu.host)).submenu_network(SubMenuNetWork(my_host_menu.host))
-        if isinstance(my_host_menu.host, Linux) == "Linux":
+        if isinstance(my_host_menu.host, Linux):
             repository.submenu_possible_defenses(SubMenuPossibleDefenses(my_host_menu.host))
         return repository.build()

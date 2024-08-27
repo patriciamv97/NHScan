@@ -11,4 +11,4 @@ class EnviromentalVaribles:
         except FileNotFoundError:
             result = subprocess.run(['env'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
 
-        self.enviromental_variables = result
+        self.enviromental_variables = result.stdout

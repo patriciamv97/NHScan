@@ -52,10 +52,10 @@ class NetWork:
             else:
                 self.network_dns = get_dns_client_server_address()
 
-    def get_dhcp(self):
+    def get_dhcp(self, ip_range):
         my_host = MyHost()
         if my_host.operative_system == "Linux":
-            self.network_dhcp = get_dhcp_linux()
+            self.network_dhcp = get_dhcp_linux(ip_range)
         elif my_host.operative_system == "Windows":
             self.network_dhcp = get_dhcp_windows()
 

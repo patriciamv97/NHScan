@@ -5,6 +5,7 @@ from colorama import Fore
 
 class MyHost:
     def __init__(self):
+        self.ip = None
         self.machine = platform.uname().machine
         self.release = platform.release()
         self.processor = platform.processor()
