@@ -1,3 +1,5 @@
+from colorama import Fore
+
 from LibModule.informationgatheringfunctions.OSFunctions.LinuxFunctions import run_command
 
 commands = {
@@ -63,3 +65,13 @@ class PossibleDefenses:
                              "conservadora,\n la memoria gestionada a través de brk() se aleatoriza.")
             case default:
                 self.alsr = "No se ha obtenido información"
+
+    def __str__(self):
+        return (
+                Fore.LIGHTMAGENTA_EX + 'AppArmor' + Fore.RESET + self.apparmor + "\n\n" +
+                Fore.LIGHTMAGENTA_EX + 'Grsecurity' + Fore.RESET + self.grsecurity + "\n\n" +
+                Fore.LIGHTMAGENTA_EX + 'Execshield' + Fore.RESET + self.exec_shield + "\n\n" +
+                Fore.LIGHTMAGENTA_EX + 'PaX' + Fore.RESET + self.pax + "\n\n" +
+                Fore.LIGHTMAGENTA_EX + 'SElinux' + Fore.RESET + self.selinux + "\n\n" +
+                Fore.LIGHTMAGENTA_EX + 'ASLR' + Fore.RESET + self.alsr + "\n\n"
+        )

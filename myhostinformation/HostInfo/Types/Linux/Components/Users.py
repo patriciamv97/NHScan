@@ -92,3 +92,29 @@ class Users:
 
     def get_users(self):
         self.users = run_command(commands_user[14])
+
+    def __str__(self):
+        return (Fore.MAGENTA + 'Usuario actual:\n\n' + Fore.RESET
+                + self.current_user + "\n" +
+                Fore.MAGENTA + 'Permisos y grupos del usuario actual:\n\n' + Fore.RESET
+                + self.current_user_groups_pemissions + "\n\n" +
+                Fore.MAGENTA + 'Usuarios conectados:\n' + Fore.RESET
+                + self.users_connected + "\n" +
+                Fore.MAGENTA + 'Historial de comandos:\n' + Fore.RESET
+                + str(self.command_history) + "\n" +
+                Fore.MAGENTA + 'Directorios de root:\n' + Fore.RESET
+                + self.root_directories + "\n" +
+                Fore.MAGENTA + 'Directorios del usuario:\n' + Fore.RESET
+                + self.user_directories + "\n" +
+                Fore.MAGENTA + 'Usuarios con sesión:\n' + Fore.RESET
+                + self.logged_in_user + "\n" +
+                Fore.MAGENTA + 'Usuarios locales:\n' + Fore.RESET
+                + self.local_users + "\n" +
+                Fore.MAGENTA + 'Grupos locales:\n' + Fore.RESET
+                + self.local_groups + "\n" +
+                Fore.MAGENTA + 'Administradores:\n' + Fore.RESET
+                + self.adm_users + "\n" +
+                Fore.MAGENTA + 'Usuarios con permiso sudo:\n' + Fore.RESET
+                + self.users_in_sudo + "\n" +
+                Fore.MAGENTA + 'Usuarios:\n' + Fore.RESET
+                + self.users + "\n")

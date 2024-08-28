@@ -1,5 +1,7 @@
 import subprocess
 
+from colorama import Fore
+
 from LibModule.Loader import Loader
 from LibModule.informationgatheringfunctions.OSFunctions.WindowsFunctions import run_powershell_command, run_command
 
@@ -21,16 +23,16 @@ commands_file_directories = {
 class FilesDirectories:
 
     def __init__(self):
-        self.hidden_files_in_root = None
-        self.hidden_files_in_user = None
-        self.hidden_files_in_users = None
-        self.passwords = None
-        self.interesting_files = None
-        self.logs = None
-        self.config_files = None
-        self.init_files = None
-        self.unattended_files = None
-        self.xml_files = None
+        self.hidden_files_in_root = ""
+        self.hidden_files_in_user = ""
+        self.hidden_files_in_users = ""
+        self.passwords = ""
+        self.interesting_files = ""
+        self.logs = ""
+        self.config_files = ""
+        self.init_files = ""
+        self.unattended_files = ""
+        self.xml_files = ""
 
     def get_unattended_files(self):
         loader = Loader("Loading...", "", 0.05).start()
@@ -64,3 +66,25 @@ class FilesDirectories:
 
     def get_hidden_files_in_user(self):
         self.hidden_files_in_users = run_command(commands_file_directories[10])
+
+    def __str__(self):
+        return (
+                Fore.MAGENTA + "Archivos ocultos en la raiz:\n\n" + Fore.RESET
+                + self.hidden_files_in_root + "\n\n" +
+                Fore.MAGENTA + "Archivos ocultos en User:\n\n" + Fore.RESET
+                + self.hidden_files_in_user + "\n\n" +
+                Fore.MAGENTA + "Contraseñas:\n\n" + Fore.RESET
+                + self.passwords + "\n\n" +
+                Fore.MAGENTA + "Archivos interesantes:\n\n" + Fore.RESET
+                + self.interesting_files + "\n\n" +
+                Fore.MAGENTA + "Logs:\n\n" + Fore.RESET
+                + self.logs + "\n\n" +
+                Fore.MAGENTA + "Archivos de configuración:\n\n" + Fore.RESET
+                + self.config_files + "\n\n" +
+                Fore.MAGENTA + "Archivos extensión ini:\n\n" + Fore.RESET
+                + self.init_files + "\n\n" +
+                Fore.MAGENTA + "Archivos desatendidos:\n\n" + Fore.RESET
+                + self.unattended_files + "\n\n" +
+                Fore.MAGENTA + "Archivos extensión xml:\n\n" + Fore.RESET
+                + self.xml_files + "\n\n"
+        )

@@ -5,6 +5,7 @@ from LibModule.informationgatheringfunctions.OSFunctions.LinuxFunctions import g
 from LibModule.informationgatheringfunctions.OSFunctions.WindowsFunctions import get_dns_client_server_address, \
     get_wmi_adapter_dns, get_dhcp_windows
 from LibModule.scanners.ARP import get_hosts_with_arp
+from LibModule.validate import get_ip_address
 from myhostinformation.MyHost import MyHost
 from networkInformation.hosts.HostInNetWork import HostInNetwork
 from networkInformation.interfaces.NetWorkInterfaces import NetWorkInterfaces
@@ -52,10 +53,12 @@ class NetWork:
             else:
                 self.network_dns = get_dns_client_server_address()
 
-    def get_dhcp(self, ip_range):
+    def get_dhcp(self, ip=None):
         my_host = MyHost()
         if my_host.operative_system == "Linux":
-            self.network_dhcp = get_dhcp_linux(ip_range)
+            if ip is None:
+                ip_range = get_ip_address()
+            self.network_dhcp = get_dhcp_linux(ip)
         elif my_host.operative_system == "Windows":
             self.network_dhcp = get_dhcp_windows()
 
@@ -73,9 +76,9 @@ class NetWork:
 
     def __str__(self):
         return (
-                Fore.MAGENTA + "Servidores DNS:\n\n" + Fore.RESET + str(', '.join(self.network_dns)) + "\n\n" +
-                Fore.MAGENTA + "Servidores DHCP:\n\n" + Fore.RESET + str(self.network_dhcp) + "\n\n" +
-                Fore.MAGENTA + "Host conectados:\n\n" + Fore.RESET + self.get_str_host() + "\n\n" +
-                Fore.MAGENTA + "Interfaces de red:\n\n" + Fore.RESET + self.get_str_interfaces() + "\n\n" +
+                Fore.MAGENTA + "Servidores DNS:\n\n" + Fore.RESET + str(', '.join(self.network_dns)) + "\n" +
+                Fore.MAGENTA + "Servidores DHCP:\n\n" + Fore.RESET + str(self.network_dhcp) + "\n" +
+                Fore.MAGENTA + "Host conectados:\n\n" + Fore.RESET + self.get_str_host() + "\n" +
+                Fore.MAGENTA + "Interfaces de red:\n\n" + Fore.RESET + self.get_str_interfaces() + "\n" +
                 Fore.MAGENTA + "Puertas de enlace:\n\n" + Fore.RESET + '\n'.join(self.network_gateways)
         )

@@ -1,6 +1,6 @@
-from LibModule.Loader import Loader
+from colorama import Fore
+
 from LibModule.informationgatheringfunctions.OSFunctions.WindowsFunctions import run_powershell_command
-from myhostinformation.HostInfo.Types.Windows import Windows
 
 commands_network = {
     1: "Get-NetRoute -AddressFamily IPv4 | Format-Table DestinationPrefix, NextHop, RouteMetric, IfIndex",
@@ -14,10 +14,10 @@ commands_network = {
 class NetWork:
 
     def __init__(self):
-        self.firewall_rules = None
-        self.network_connections = None
-        self.connected_drivers = None
-        self.route_table = None
+        self.firewall_rules = ""
+        self.network_connections = ""
+        self.connected_drivers = ""
+        self.route_table = ""
 
     def get_route_table(self):
         route_table, returncode = run_powershell_command(commands_network[1])
@@ -38,3 +38,14 @@ class NetWork:
         rules, returncode = run_powershell_command(commands_network[4])
         if returncode == 0:
             self.firewall_rules = rules
+
+    def __str__(self):
+        return (
+                Fore.MAGENTA + "Reglas de firewall:\n\n" + Fore.RESET
+                + self.firewall_rules + "\n\n" +
+                Fore.MAGENTA + "Conexiones:\n\n" + Fore.RESET
+                + self.network_connections + "\n\n" +
+                Fore.MAGENTA + "Drivers conectados:\n\n" + Fore.RESET
+                + self.connected_drivers + "\n\n" +
+                Fore.MAGENTA + "Route Table:\n\n" + Fore.RESET
+                + self.route_table + "\n\n")

@@ -17,7 +17,8 @@ class MenuHost(Menu):
         print(f"{Fore.MAGENTA}Información básica{Fore.RESET}\n{self.host.basic_information}")
 
     def enumerate_useful_programs(self):
-        loader = Loader("Loading...", "", 0.05).start()
-        self.host.programs.enumerate_useful_programs()
-        loader.stop()
+        if not self.host.programs.useful_programs:
+            loader = Loader("Loading...", "", 0.05).start()
+            self.host.programs.enumerate_useful_programs()
+            loader.stop()
         print(f"{Fore.MAGENTA}Programas{Fore.RESET}\n{self.host.programs.useful_programs}")

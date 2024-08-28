@@ -2,6 +2,7 @@ import sys
 
 from colorama import Fore
 
+from LibModule.Loader import Loader
 from LibModule.constants import Constants
 from LibModule.scanners.ARP import get_mac_by_ip
 from LibModule.validate import get_ip_address
@@ -30,16 +31,22 @@ class MenuNetWorkHost(Menu):
             pass
 
     def get_network_host(self):
+        loader = Loader("Loading...", "", 0.05).start()
         self.host.get_os()
         self.host.get_host_name()
         self.host.mac = get_mac_by_ip(self.host.ip)
+        loader.stop()
         print(Fore.MAGENTA + "IP: " + Fore.RESET + self.host.ip + "\n" +
               Fore.MAGENTA + "MAC: " + Fore.RESET + ' '.join(self.host.mac) + "\n" +
               Fore.MAGENTA + "Nombre del host: " + Fore.RESET + self.host.host_name + "\n" +
               Fore.MAGENTA + "Sistema operativo: " + Fore.RESET + self.host.operative_system)
 
     def enmu_services(self):
-        print(self.host.enum_services())
+        if not self.host.enum_services:
+            loader = Loader("Loading...", "", 0.05).start()
+            self.host.get_enum_services()
+            loader.stop()
+        print(self.host.enum_services)
 
     def get_common_open_ports(self):
         self.host.get_common_open_ports()
@@ -57,7 +64,8 @@ class MenuNetWorkHost(Menu):
         eleccion = int(seleccion)
 
         if eleccion == 1:
-            print(Fore.YELLOW + "[!]Debes hacer un escaneo de puertos abiertos para poder obtener los banners."+Fore.RESET)
+            print(
+                Fore.YELLOW + "[!]Debes hacer un escaneo de puertos abiertos para poder obtener los banners." + Fore.RESET)
             if self.host.open_ports:
                 self.host.get_banners(self.host.open_ports)
         elif eleccion == 2:
@@ -65,7 +73,8 @@ class MenuNetWorkHost(Menu):
         elif eleccion == 3:
             ports = input(
                 Fore.CYAN + "Introduce, un puerto o varios puertos para obtener el banner.\n" + Fore.YELLOW +
-                "En el caso de introducir varios puertos, hagalo separandolos por comas. Ej: 22, 23, 25\n"+Fore.RESET).split(',')
+                "En el caso de introducir varios puertos, hagalo separandolos por comas. Ej: 22, 23, 25\n" + Fore.RESET).split(
+                ',')
             self.host.get_banners(ports)
         else:
             print(Fore.RED + "Formato no válido. Debes elegir una opción de las tres anteriores")

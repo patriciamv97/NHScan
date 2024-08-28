@@ -1,5 +1,7 @@
 import subprocess
 
+from colorama import Fore
+
 
 class EnviromentalVaribles:
     def __init__(self):
@@ -12,3 +14,8 @@ class EnviromentalVaribles:
             result = subprocess.run(['env'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
 
         self.enviromental_variables = result.stdout
+
+    def __str__(self):
+        return Fore.MAGENTA + "Todas las variables:\n\n" + Fore.RESET + self.enviromental_variables + "\n\n"
+
+

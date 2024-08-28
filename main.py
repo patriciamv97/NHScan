@@ -1,6 +1,9 @@
+from datetime import datetime
+
 from colorama import Fore
 
 from LibModule.constants import Constants
+from Report.PDFGenerator import PDFGenerator
 from menu.MainMenus.MenuHost.MenuHost import MenuHost
 from menu.MainMenus.MenuNetWork import MenuNetWork
 from menu.MainMenus.MenuNetWorkHost import MenuNetWorkHost
@@ -45,19 +48,29 @@ if __name__ == "__main__":
 
     builder = MenuRepository()
 
+    network = NetWork()
     menu_network = MenuNetWork()
-    menu_network.set_network(NetWork())
+    menu_network.set_network(network)
 
+    host_in_network = HostInNetwork()
     menu_network_host = MenuNetWorkHost()
-    menu_network_host.set_host_in_network(HostInNetwork())
-    menu_host = MenuHost()
+    menu_network_host.set_host_in_network(host_in_network)
 
+    menu_host = MenuHost()
     if MyHost().operative_system == "Windows":
-        menu_host.set_host(Windows())
+        host = Windows()
+        menu_host.set_host(host)
         submenu = MenuWindowsHostRepository()
     else:
-        menu_host.set_host(Linux())
+        host = Linux()
+        menu_host.set_host(host)
         submenu = MenuLinuxHostRepository()
+
+    report = PDFGenerator()
+    nombre = "informe"+str(datetime.now().timestamp())+".pdf"
+    report.set_file_info(nombre)
+    report.set_data([network, host_in_network, host])
+    builder.set_report(report)
 
     main_menu = (builder.network_menu(menu_network)
                  .network_host_menu(menu_network_host).my_host_menu(menu_host, submenu).build()).main_menu()

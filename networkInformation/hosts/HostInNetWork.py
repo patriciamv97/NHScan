@@ -1,6 +1,5 @@
 import socket
 import sys
-from time import sleep
 
 from colorama import Fore
 
@@ -10,7 +9,7 @@ from LibModule.constants import Constants
 from LibModule.informationgatheringfunctions.Functions import get_manually_banner, manualy_grabber_manually
 from LibModule.informationgatheringfunctions.Nmap import enum_scan_nmap, get_banner_nmap, open_ports_nmap
 from LibModule.scanners.PING import get_value_ttl
-from LibModule.validate import out_decode, out_nmap_validate
+from LibModule.validate import out_decode, out_nmap_validate, check_execs
 
 
 class HostInNetwork:
@@ -22,6 +21,7 @@ class HostInNetwork:
         self.banners = {}
         self.open_ports = []
         self.common_open_ports = []
+        self.enum_services = ""
 
     def get_host_name(self):
         host_name = get_host_name_by_ip(self.ip)
@@ -51,20 +51,29 @@ class HostInNetwork:
                 self.operative_system = "Unknown"
 
     def get_banners(self, ports):
-        loader = Loader("Loading...", "", 0.05).start()
         for port in ports:
             try:
-                banner = get_banner_nmap(self.ip, str(port))
-                if banner is not None:
-                    banner = out_decode(banner)
+                if check_execs("nmap"):
+                    loader = Loader("Loading...", "", 0.05).start()
+                    banner = get_banner_nmap(self.ip, str(port))
                     loader.stop()
-                    print(banner)
-                    self.banners[port] = banner
+                    if banner is not None:
+                        banner = out_decode(banner)
+                        loader.stop()
+                        print(banner)
+                        self.banners[port] = banner
                 else:
+                    print(
+                        f"{Fore.YELLOW}[!]Problema detectado, se intentará obtener los banners a través de una conexión con "
+                        f"socket, enviando banners.\n[!]Tenga en cuenta que con esta opción puede no obtener todos los "
+                        f"resultados como pueda ser con NMAP")
                     self.banners[port] = manualy_grabber_manually(self.ip, int(port))
             except Exception as e:
                 loader.stop()
-                print(e)
+                print(
+                    f"{Fore.YELLOW}[!]Problema detectado, se intentará obtener los banners a través de una conexión con "
+                    f"socket, enviando banners.\n[!]Tenga en cuenta que con esta opción puede no obtener todos los "
+                    f"resultados como pueda ser con NMAP")
                 self.banners[port] = manualy_grabber_manually(self.ip, int(port))
 
     def check_vulnerability(self):
@@ -81,7 +90,7 @@ class HostInNetwork:
         except TypeError:
             print(f"{Fore.RED}[!]No hay banners")
 
-    def enum_services(self):
+    def get_enum_services(self):
         loader = Loader("Loading...", "", 0.05).start()
         try:
             services = enum_scan_nmap(self.ip)
@@ -89,13 +98,13 @@ class HostInNetwork:
                 services = out_decode(services)
                 services, state = out_nmap_validate(services)
                 loader.stop()
-                return services
+                self.enum_services = services
         except FileNotFoundError:
             loader.stop()
-            print(f"{Fore.YELLOW}[!]Instala NMAP para poder usar esta utilidad.")
+            print(f"{Fore.YELLOW}[!]Instala NMAP para poder usar esta utilidad.{Fore.RESET}")
         except:
             loader.stop()
-            print(Fore.RED + "[!]No se pudo enumerar los servicios")
+            print(Fore.RED + "[!]No se pudo enumerar los servicios" + Fore.RESET)
 
     def get_common_open_ports(self):
         open_common_ports = []
@@ -109,22 +118,26 @@ class HostInNetwork:
     def get_all_open_ports(self):
         loader = Loader("Loading...", "", 0.05).start()
         try:
-            open_ports = open_ports_nmap(self.ip)
-            loader.stop()
-            if open_ports is not None:
+            if check_execs("nmap"):
+                open_ports = open_ports_nmap(self.ip)
+                loader.stop()
+                if open_ports is not None:
+                    self.open_ports = open_ports
+                    for port in self.open_ports:
+                        print(f"Puerto {Fore.YELLOW + str(port) + Fore.RESET} abierto.")
+            else:
+                open_ports = []
+                loader.stop()
+                for port in range(0, 65535):
+                    if self.is_port_open(port):
+                        print(f"Puerto {Fore.YELLOW + str(port) + Fore.RESET} abierto.")
+                        open_ports.append(port)
                 self.open_ports = open_ports
-                for port in self.open_ports:
-                    print(f"Puerto {Fore.YELLOW + str(port) + Fore.RESET} abierto.")
+                print(open_ports)
         except:
-            open_ports = []
-            for port in range(0, 65535):
-                if self.is_port_open(port):
-                    print(f"Puerto {Fore.YELLOW + str(port) + Fore.RESET} abierto.")
-                    open_ports.append(port)
-            self.open_ports = open_ports
             loader.stop()
-            print(open_ports)
-        return open_ports
+            print("[!]Algo ha ido mal.")
+            pass
 
     def is_port_open(self, port):
         try:
@@ -136,13 +149,13 @@ class HostInNetwork:
             s.close()
             return False
         except KeyboardInterrupt:
-            print(Fore.YELLOW + "\n[X]Operación cancelada")
+            print(Fore.YELLOW + "\n[X]Operación cancelada" + Fore.RESET)
             pass
         except socket.gaierror:
-            print(Fore.YELLOW + "\n[!]El Nombre del host no puede ser resuelto!!!")
+            print(Fore.YELLOW + "\n[!]El Nombre del host no puede ser resuelto!!!" + Fore.RESET)
             sys.exit(1)
         except socket.error:
-            print(Fore.YELLOW + '\n[!]Host No Responde!!!')
+            print(Fore.YELLOW + '\n[!]Host No Responde!!!' + Fore.RESET)
             sys.exit(1)
 
     def __str__(self):
@@ -150,5 +163,6 @@ class HostInNetwork:
                 Fore.LIGHTMAGENTA_EX + "IP: " + Fore.RESET + self.ip + "\n" +
                 Fore.LIGHTMAGENTA_EX + "MAC: " + Fore.RESET + self.mac + "\n" +
                 Fore.LIGHTMAGENTA_EX + "Nombre del host: " + Fore.RESET + self.host_name + "\n" +
-                Fore.LIGHTMAGENTA_EX + "Sistema operativo: " + Fore.RESET + self.operative_system + "\n"
+                Fore.LIGHTMAGENTA_EX + "Sistema operativo: " + Fore.RESET + self.operative_system + "\n"+
+                Fore.LIGHTMAGENTA_EX + "Servicios: " + Fore.RESET + self.enum_services + "\n"
         )

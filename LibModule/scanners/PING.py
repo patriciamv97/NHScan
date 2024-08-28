@@ -16,4 +16,6 @@ def get_value_ttl(ip_address):
     ttl = re.findall(r"(?<=TTL=)\d{1,3}", out)
     if len(ttl) == 0:
         ttl = re.findall(r"(?<=ttl=)\d{1,3}", out)
+    if len(ttl)==0:
+        return None
     return ttl[0]

@@ -23,13 +23,18 @@ class MenuRepository:
         self._network_menu = None
         self._network_host_menu = None
         self._my_host_menu = None
+        self._report = None
+
+    def set_report(self, report):
+        self._report = report
 
     def main_menu(self):
         self._main_menu.options = {
             '1': ('Salir', self._main_menu.exit_program),
             '2': ('Escanear red', self._network_menu.main_menu),
             '3': ('Escanear host', self._network_host_menu.main_menu),
-            '4': ('Obtener info de mi host', self._my_host_menu.main_menu)
+            '4': ('Obtener info de mi host', self._my_host_menu.main_menu),
+            '5': ('Descargar informe', self._report.create_pdf)
         }
         self._main_menu.exit = 1
         return self._main_menu
@@ -77,7 +82,8 @@ class MenuRepository:
 
         }
         if isinstance(my_host_menu.host, Linux):
-            self._my_host_menu.options['8'] = ('Posibles defensas',repository.get_submenu_possible_defenses().main_menu)
+            self._my_host_menu.options['8'] = (
+                'Posibles defensas', repository.get_submenu_possible_defenses().main_menu)
         return self
 
     def get_my_host_menu(self):

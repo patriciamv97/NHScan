@@ -1,5 +1,7 @@
 import ipaddress
 import re
+import sys
+from subprocess import Popen, PIPE
 
 from colorama import Fore
 
@@ -89,3 +91,13 @@ def out_nmap_validate(out):
             f"está activa, revisa la configuración de la red o de las infertaces."), 0
     else:
         return out, 1
+
+
+def check_execs(*progs):
+    """Check if the programs are installed, if not exit and report."""
+    for prog in progs:
+        try:
+            Popen([prog, '--help'], stdout=PIPE, stderr=PIPE)
+        except OSError:
+            pass
+    return

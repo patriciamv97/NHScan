@@ -1,6 +1,5 @@
 from colorama import Fore
 
-from LibModule.Loader import Loader
 from LibModule.informationgatheringfunctions.OSFunctions.WindowsFunctions import run_powershell_command
 
 commands_enviromental_variables = {
@@ -26,3 +25,11 @@ class EnviromentalVaribles:
         if returncode_hcku == 0 and returncode_hklm == 0:
             self.passwords = (f"{Fore.MAGENTA}Registros en HKCU:{Fore.RESET} \n{password_in_reg_hcku}\n\n{Fore.MAGENTA}"
                               f"Registros en HKLM:{Fore.RESET} \n{password_in_reg_hklm}\n\n")
+
+    def __str__(self):
+        return (
+                Fore.MAGENTA + "Todas las variables:\n\n" + Fore.RESET
+                + self.enviromental_variables + "\n\n" +
+                Fore.MAGENTA + "Contraseñas en los registros:\n\n" + Fore.RESET
+                + self.enviromental_variables.__str__() + "\n\n")
+

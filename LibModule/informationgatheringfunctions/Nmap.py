@@ -2,7 +2,7 @@ import subprocess
 
 
 def enum_scan_nmap(ip):
-    nmap = subprocess.Popen(["nmap", ip, "-n", "-sS", "-A", "-T4"], stdout=subprocess.PIPE,
+    nmap = subprocess.Popen(["nmap", ip, "-p-"], stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE)
     out, err = nmap.communicate()
     if err:

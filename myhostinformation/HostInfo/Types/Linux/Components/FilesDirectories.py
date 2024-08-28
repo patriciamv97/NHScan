@@ -1,3 +1,5 @@
+from colorama import Fore
+
 from LibModule.informationgatheringfunctions.OSFunctions.LinuxFunctions import run_command
 
 commands_file_directories = {
@@ -49,3 +51,22 @@ class FilesDirectories:
 
     def get_writable_files_for_current_user(self):
         self.writable_for_current_user = run_command(commands_file_directories[8])
+
+    def __str__(self):
+        return (
+                Fore.MAGENTA + "Archivos mal configurados:\n\n" + Fore.RESET
+                + self.misconfiguration_files_suid + "\n\n" +
+                Fore.MAGENTA + "Archivos globales sin tener en cuenta los virtuales:\n\n" + Fore.RESET
+                + self.global_files_without_proc + "\n\n" +
+                Fore.MAGENTA + "Logs con contraseña:\n\n" + Fore.RESET
+                + self.logs_with_passwords + "\n\n" +
+                Fore.MAGENTA + "Archivos de configuracion con contraseña:\n\n" + Fore.RESET
+                + self.configurations_files_with_password + "\n\n" +
+                Fore.MAGENTA + "Sticky bits:\n\n" + Fore.RESET
+                + self.sticky_bits + "\n\n" +
+                Fore.MAGENTA + "Archivos con escritura para el usuario actual:\n\n" + Fore.RESET
+                + self.writable_files_for_current_user + "\n\n" +
+                Fore.MAGENTA + "Directorios con permiso de escritura para el usuario actual:\n\n" + Fore.RESET
+                + self.writable_for_current_user + "\n\n" +
+                Fore.MAGENTA + "Directorios con permisos de escritura:\n\n" + Fore.RESET
+                + self.writable_folders + "\n\n")

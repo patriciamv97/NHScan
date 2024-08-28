@@ -39,7 +39,10 @@ class MenuNetWork(Menu):
     @staticmethod
     def get_network_interfaces():
         network_interfaces = NetWorkInterfaces()
-        network_interfaces.get_interfaces()
+        if not network_interfaces.interfaces:
+            loader = Loader("Loading...", "", 0.05).start()
+            network_interfaces.get_interfaces()
+            loader.stop()
         for interface in network_interfaces.interfaces:
             print(interface.__str__())
 
@@ -63,14 +66,14 @@ class MenuNetWork(Menu):
 
     def get_dhcp(self):
         if len(self.network.network_dhcp) == 0:
-            self.network.get_dhcp(get_ip_address())
+            self.network.get_dhcp()
         print(
             Fore.CYAN + "Servidor DHCP:\n" + Fore.RESET + "\t" +
             str(self.network.network_dhcp)
             )
 
     def get_network_hosts(self):
-        if len(self.network.host_in_network) ==0:
+        if len(self.network.host_in_network) == 0:
             self.network.get_other_host(get_network_range())
         for host in self.network.host_in_network:
             print(host.__str__())

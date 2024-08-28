@@ -10,7 +10,7 @@ class Programs:
     }
 
     def __init__(self):
-        self.useful_programs = None
+        self.useful_programs = ""
 
     def enumerate_useful_programs(self):
         self.useful_programs = run_command(self.commands_programs[1])

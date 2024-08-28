@@ -32,18 +32,18 @@ commands_user = {
 
 class Users:
     def __init__(self):
-        self.currently_stored_history = None
-        self.user_login_history = None
-        self.remote_desktop_users = None
-        self.administrators = None
-        self.local_users = None
-        self.local_groups = None
-        self.user_directory = None
-        self.logged_in_user = None
-        self.gpo_user = None
-        self.gpo_computer = None
-        self.powershell_history = None
-        self.current_user = None
+        self.currently_stored_history = ""
+        self.user_login_history = ""
+        self.remote_desktop_users = ""
+        self.administrators = ""
+        self.local_users = ""
+        self.local_groups = ""
+        self.user_directory = ""
+        self.logged_in_user = ""
+        self.gpo_user = ""
+        self.gpo_computer = ""
+        self.powershell_history = ""
+        self.current_user = ""
 
     def get_gpo_user(self):
         gpo_user, returncode = run_powershell_command(commands_user[1])
@@ -115,3 +115,22 @@ class Users:
         currently_stored_history, returncode = run_powershell_command(commands_user[14])
         if returncode == 0:
             self.currently_stored_history = currently_stored_history
+
+    def __str__(self):
+        return (
+                Fore.LIGHTMAGENTA_EX + 'Obtener directivas de grupo\n\n' + Fore.RESET + self.gpo_user + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Obtener directivas de la máquina\n\n' + Fore.RESET + self.gpo_computer + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Usuario actual\n\n' + Fore.RESET + self.current_user + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Historial de PowerShell\n\n' + Fore.RESET + str(self.powershell_history) + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Historial de incio de sesón del usuario\n\n' + Fore.RESET
+                + self.user_login_history + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Usuarios del grupo Escritorio remoto\n\n' + Fore.RESET
+                + self.remote_desktop_users + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Directorios del usuario\n\n' + Fore.RESET + self.user_directory + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Usuarios con sesión\n\n' + Fore.RESET + self.logged_in_user + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Usuarios locales\n\n' + Fore.RESET + self.local_users + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Grupos locales\n\n' + Fore.RESET + self.local_groups + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Administradores\n\n' + Fore.RESET + self.administrators + "\n" +
+                Fore.LIGHTMAGENTA_EX + 'Historial actual de creendenciales\n\n' + Fore.RESET
+                + self.currently_stored_history
+        )
