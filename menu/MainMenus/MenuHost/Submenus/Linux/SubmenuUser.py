@@ -33,7 +33,7 @@ class SubMenuUser(MenuHost):
         if not self.host.users.command_history:
             self.host.users.get_command_history()
         print(f"{Fore.MAGENTA}Historial de comandos:{Fore.RESET}")
-        for line in self.host.command_history:
+        for line in self.host.users.command_history:
             print(line.strip())
 
     def get_user_history(self):
