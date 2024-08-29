@@ -160,9 +160,9 @@ class HostInNetwork:
 
     def __str__(self):
         return (
-                Fore.LIGHTMAGENTA_EX + "IP: " + Fore.RESET + self.ip + "\n" +
-                Fore.LIGHTMAGENTA_EX + "MAC: " + Fore.RESET + self.mac + "\n" +
-                Fore.LIGHTMAGENTA_EX + "Nombre del host: " + Fore.RESET + self.host_name + "\n" +
-                Fore.LIGHTMAGENTA_EX + "Sistema operativo: " + Fore.RESET + self.operative_system + "\n"+
-                Fore.LIGHTMAGENTA_EX + "Servicios: " + Fore.RESET + self.enum_services + "\n"
+                Fore.LIGHTMAGENTA_EX + "IP: " + Fore.RESET + str(self.ip) + "\n" +
+                Fore.LIGHTMAGENTA_EX + "MAC: " + Fore.RESET + str(self.mac) + "\n" +
+                Fore.LIGHTMAGENTA_EX + "Nombre del host: " + Fore.RESET + str(self.host_name) + "\n" +
+                Fore.LIGHTMAGENTA_EX + "Sistema operativo: " + Fore.RESET + str(self.operative_system) + "\n"+
+                Fore.LIGHTMAGENTA_EX + "Servicios: " + Fore.RESET + str(self.enum_services) + "\n"
         )

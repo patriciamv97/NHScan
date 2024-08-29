@@ -65,7 +65,7 @@ class FilesDirectories:
         self.hidden_files_in_users = run_command(commands_file_directories[9])
 
     def get_hidden_files_in_user(self):
-        self.hidden_files_in_users = run_command(commands_file_directories[10])
+        self.hidden_files_in_user = run_command(commands_file_directories[10])
 
     def __str__(self):
         return (

@@ -6,6 +6,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph
 
 from LibModule.Functions import get_downloads_folder
+from LibModule.Loader import Loader
 from Report.Template import MyDocTemplate, convert_colorama_to_reportlab
 
 
@@ -25,10 +26,10 @@ class PDFGenerator:
         self.file_path = os.path.join(downloads_folder, file_name)
 
     def create_pdf(self):
-        try:
+            ''' loader = Loader("Loading...", "", 0.05).start()
+                    try:'''
             if not self.file_path:
                 raise ValueError("La ruta del archivo no ha sido establecida. Llama a set_file_info() primero.")
-
             doc = MyDocTemplate(self.file_path, pagesize=letter)
             styles = getSampleStyleSheet()
             story = []
@@ -37,11 +38,15 @@ class PDFGenerator:
                 p = Paragraph(formatted_text, style=styles['Normal'])
                 story.append(p)
             doc.build(story)
+            #loader.stop()
             print("[!]Informe descargado. Revisa la carpeta de descargas.")
-        except PermissionError:
+    '''    except PermissionError:
+            loader.stop()
             print(Fore.YELLOW+"[!]Comprueba que no tengas el archivo abierto."+Fore.RESET)
             pass
         except Exception as e:
+            loader.stop()
             print(Fore.RED+"[X]No se ha podido generar el informe, algo ha ido mal."+Fore.RESET+"\n")
-            print(e)
+            print(e.args)
             pass
+'''
