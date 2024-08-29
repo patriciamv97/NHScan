@@ -47,31 +47,38 @@ def validate_network(network_range):
 
 
 def get_network_range():
-    num_attemps_max = 5
-    network_range = input(Fore.BLUE + "Introduce el rango de red que quieres escanera. "
-                          + "Ej: 192.168.1.0/24\n" + Fore.RESET
-                          + Fore.WHITE + "[!]INFORMACION: Puedes comprobar el cdir en el siguiente enlace:"
-                          + Fore.RESET + Fore.CYAN + "\n" + Constants.__enlace_cdir__ + "\n")
-    network_validate = validate_network(network_range)
-    while network_validate is None and num_attemps_max > 0:
-        num_attemps_max -= 1
-        network_range = input(Fore.BLUE + "Introduce un rango de red válido:\n" + Fore.RESET)
+    try:
+        num_attemps_max = 5
+        network_range = input(Fore.BLUE + "Introduce el rango de red que quieres escanera. "
+                              + "Ej: 192.168.1.0/24\n" + Fore.RESET
+                              + Fore.WHITE + "[!]INFORMACION: Puedes comprobar el cdir en el siguiente enlace:"
+                              + Fore.RESET + Fore.CYAN + "\n" + Constants.__enlace_cdir__ + "\n")
         network_validate = validate_network(network_range)
-    if network_validate:
-        return network_range
+        while network_validate is None and num_attemps_max > 0:
+            num_attemps_max -= 1
+            network_range = input(Fore.BLUE + "Introduce un rango de red válido:\n" + Fore.RESET)
+            network_validate = validate_network(network_range)
+        if network_validate:
+            return network_range
+    except KeyboardInterrupt:
+        print(Fore.YELLOW + "\n[X]Operación cancelada" + Fore.RESET)
+        pass
 
 
 def get_ip_address():
-    num_attemps_max = 5
-    ip = input(Fore.BLUE + "Introduce la direccion del host que quieres escanear.\n" + Fore.RESET)
-    ip_validate = validate_ip(ip)
-    while ip_validate is None and num_attemps_max > 0:
-        num_attemps_max -= 1
-        ip = input(Fore.BLUE + "Introduce una dirección válida:\n" + Fore.RESET)
-        ip_validate = validate_network(ip)
-    if ip_validate:
-        return ip
-
+    try:
+        num_attemps_max = 5
+        ip = input(Fore.BLUE + "Introduce la direccion del host que quieres escanear.\n" + Fore.RESET)
+        ip_validate = validate_ip(ip)
+        while ip_validate is None and num_attemps_max > 0:
+            num_attemps_max -= 1
+            ip = input(Fore.BLUE + "Introduce una dirección válida:\n" + Fore.RESET)
+            ip_validate = validate_network(ip)
+        if ip_validate:
+            return ip
+    except KeyboardInterrupt:
+        print(Fore.YELLOW + "\n[X]Operación cancelada" + Fore.RESET)
+        pass
 
 def out_decode(out):
     os = MyHost().operative_system

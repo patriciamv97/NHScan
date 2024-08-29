@@ -23,9 +23,7 @@ class MenuNetWorkHost(Menu):
             if ip_address:
                 self.host.ip = ip_address
                 super().main_menu()
-            else:
-                print(Fore.RED + "Tienes que meter una direccion correcta.")
-                super().exit_program()
+
         except KeyboardInterrupt:
             print(Fore.YELLOW + "\n[X]Operación cancelada")
             pass
@@ -49,7 +47,7 @@ class MenuNetWorkHost(Menu):
         print(self.host.enum_services)
 
     def get_common_open_ports(self):
-        self.host.get_common_open_ports()
+        print(self.host.get_common_open_ports())
 
     def get_open_ports(self):
         self.host.get_all_open_ports()
