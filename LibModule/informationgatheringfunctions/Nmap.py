@@ -11,7 +11,7 @@ def enum_scan_nmap(ip):
 
 
 def open_ports_nmap(ip):
-    command = "nmap 192.168.68.102 -p- | awk '/^[0-9]/ {print $1}' | cut -d'/' -f1"
+    command = "nmap"+ip+ "-p- | awk '/^[0-9]/ {print $1}' | cut -d'/' -f1"
     try:
         result = subprocess.run(
             command,

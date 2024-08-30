@@ -2,8 +2,6 @@ import socket
 
 from colorama import Fore
 
-from LibModule.Loader import Loader
-
 
 def get_manually_banner(ip, port):
     try:

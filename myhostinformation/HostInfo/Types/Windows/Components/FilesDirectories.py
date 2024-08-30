@@ -19,7 +19,6 @@ commands_file_directories = {
     10: "dir /a:h \\Users\\%username%"
 }
 
-
 class FilesDirectories:
 
     def __init__(self):

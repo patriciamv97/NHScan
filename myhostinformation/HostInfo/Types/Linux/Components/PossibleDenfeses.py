@@ -5,7 +5,7 @@ from LibModule.informationgatheringfunctions.OSFunctions.LinuxFunctions import r
 commands = {
     2: '((uname -r | grep "\-grsec" >/dev/null 2>&1 || grep "grsecurity" /etc/sysctl.conf >/dev/null 2>&1) && echo '
        '"Yes" || echo "Not found grsecurity")',
-    3: '(which paxctl-ng paxctl >/dev/null 2>&1 && echo "Yes" || echo "Not found PaX")',
+    3: '(which paxctl-ng paxctl 2>/dev/null 2>&1 && echo "Yes" || echo "Not found PaX")',
     4: '(grep "exec-shield" /etc/sysctl.conf || echo "Not found Execshield")',
     5: '(sestatus 2>/dev/null || echo "Not found sestatus")',
     6: 'cat /proc/sys/kernel/randomize_va_space 2>/dev/null',

@@ -3,11 +3,14 @@ import sys
 
 from colorama import Fore
 
-from LibModule.HostNameFunctions import get_host_name_by_ip, nmb_look_up, avahi_resolve
+from LibModule.HostNameFunctions import (get_host_name_by_ip,
+                                         nmb_look_up, avahi_resolve)
 from LibModule.Loader import Loader
 from LibModule.constants import Constants
-from LibModule.informationgatheringfunctions.Functions import get_manually_banner, manualy_grabber_manually
-from LibModule.informationgatheringfunctions.Nmap import enum_scan_nmap, get_banner_nmap, open_ports_nmap
+from LibModule.informationgatheringfunctions.Functions import (
+    get_manually_banner, manualy_grabber_manually)
+from LibModule.informationgatheringfunctions.Nmap import (
+    enum_scan_nmap, get_banner_nmap, open_ports_nmap)
 from LibModule.scanners.PING import get_value_ttl
 from LibModule.validate import out_decode, out_nmap_validate, check_execs
 

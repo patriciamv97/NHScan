@@ -1,8 +1,7 @@
 import socket
-import subprocess
-import re
 
 import psutil
+
 from networkInformation.interfaces.NetworkInterface import NetWorkInterface
 
 
