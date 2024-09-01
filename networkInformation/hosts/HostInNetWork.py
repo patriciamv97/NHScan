@@ -18,7 +18,7 @@ from LibModule.validate import out_decode, out_nmap_validate, check_execs
 class HostInNetwork:
     def __init__(self):
         self.ip = ""
-        self.mac = ""
+        self.mac = []
         self.operative_system = ""
         self.host_name = ""
         self.banners = {}
@@ -46,7 +46,7 @@ class HostInNetwork:
             if 0 <= ttl_value <= 64:
                 self.operative_system = "Linux"
             elif 65 <= ttl_value <= 128:
-                if self.mac.startswith("a4:") or self.mac.startswith("a8:") or self.mac.startswith("ac:"):
+                if str(self.mac).startswith("a4:") or str(self.mac).startswith("a8:") or str(self.mac).startswith("ac:"):
                     self.operative_system = "Android"
                 else:
                     self.operative_system = "Windows"
