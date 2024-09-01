@@ -28,3 +28,4 @@ Una vez tengamos la herramienta instalada prodremos empezar a utilizar esta herr
 ````commandline
 python scanner.py
 ````
+![Captura de pantalla 2024-09-01 173948](https://github.com/user-attachments/assets/cdf1d1af-74a9-438e-ba66-38c1435a2438)
